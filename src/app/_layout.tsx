@@ -1,18 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import "@/utils/mapbox";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-SplashScreen.preventAutoHideAsync();
+import { useNowTicker } from "@/hooks/use-now";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
+  useNowTicker();
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="light" />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="add-flight"
+          options={{
+            presentation: "formSheet",
+            sheetAllowedDetents: process.env.EXPO_OS === "ios" ? [0.96] : [1.0],
+            sheetGrabberVisible: false,
+            sheetLargestUndimmedDetentIndex: "none",
+            contentStyle: { backgroundColor: "#FFFFFF" },
+          }}
+        />
+        <Stack.Screen
+          name="flight/[id]"
+          options={{
+            presentation: "formSheet",
+            sheetAllowedDetents: [0.58, 0.96],
+            sheetInitialDetentIndex: 0,
+            sheetGrabberVisible: false,
+            sheetLargestUndimmedDetentIndex: "last",
+            contentStyle: { backgroundColor: "#FFFFFF" },
+          }}
+        />
+      </Stack>
+    </GestureHandlerRootView>
   );
 }
