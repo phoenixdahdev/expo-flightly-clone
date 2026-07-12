@@ -15,10 +15,11 @@ import {
   frame,
   kerning,
   padding,
+  shadow,
 } from "@expo/ui/swift-ui/modifiers";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import { getTemplate } from "@/data/flight-templates";
@@ -94,7 +95,7 @@ function IosPassportCard() {
             <HStack>
               <VStack alignment="leading" spacing={4}>
                 <UiText
-      modifiers={[foregroundColor("#FFFFFF"), font({ size: 22, weight: "semibold" }), kerning(1.2)]}
+      modifiers={[foregroundColor("#FFFFFF"), font({ size: 19, weight: "semibold" }), kerning(0.8)]}
                 >
                   ALL-TIME FLIGHTY PASSPORT
                 </UiText>
@@ -161,6 +162,11 @@ function IosPassportCard() {
 
 function IosDelayCard() {
   const stats = usePassportStats();
+  const { width } = useWindowDimensions();
+  // matchContents sizes the SwiftUI host to intrinsic content, so Spacer has
+  // nothing to expand into — pin the row to the card's inner width instead
+  // (window − 16pt scroll padding ×2 − 20pt card padding ×2).
+  const rowWidth = width - 72;
   return (
     <View style={{ borderRadius: 22, borderCurve: "continuous", overflow: "hidden" }}>
       <LinearGradient
@@ -170,7 +176,7 @@ function IosDelayCard() {
       >
         <Host matchContents style={{ width: "100%" }}>
           <VStack alignment="leading" spacing={2} modifiers={[padding({ all: 20 })]}>
-            <HStack>
+            <HStack alignment="top" modifiers={[frame({ width: rowWidth })]}>
               <StatValue size={64}>{`${stats.delayedMin}`}</StatValue>
               <Spacer />
               <Image systemName="square.and.arrow.up" size={19} color="#FFFFFF" />
@@ -211,7 +217,9 @@ function IosChips({
             <UiText modifiers={[foregroundColor(range === chip.key ? colors.label : colors.secondaryLabel), 
                 font({ size: 17, weight: range === chip.key ? "semibold" : "medium" }),
                 padding({ vertical: 11, horizontal: 20 }),
-                ...(range === chip.key ? [background("#FFFFFF", "capsule" as never)] : []),
+                ...(range === chip.key
+                  ? [background("#FFFFFF", "capsule" as never), shadow({ radius: 8, y: 2, color: "#00000022" })]
+                  : []),
               ]}
             >
               {chip.label}

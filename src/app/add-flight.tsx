@@ -18,7 +18,7 @@ import { FlightResultRow } from "@/components/add-flight/flight-result-row";
 import { ResultsFilterBar } from "@/components/add-flight/results-filter-bar";
 import { SearchFieldRow, type Chip } from "@/components/add-flight/search-field-row";
 import { SectionHeader } from "@/components/add-flight/section-header";
-import { AIRLINES, getAirline } from "@/data/airlines";
+import { getAirline } from "@/data/airlines";
 import { getAirport } from "@/data/airports";
 import type { Airport, FlightTemplate } from "@/data/types";
 import { findFlightsByRoute } from "@/data/flight-templates";
@@ -252,8 +252,8 @@ export default function AddFlightScreen() {
               onPress={() => {}}
             />
             <SectionHeader title="FREQUENTLY USED" />
-            {AIRLINES.filter((a) => ["F8", "AC"].includes(a.iata)).map((a) => (
-              <AirlineRow key={a.iata} airline={a} />
+            {["F8", "AC"].map((iata) => (
+              <AirlineRow key={iata} airline={getAirline(iata)} />
             ))}
             {["YYZ", "YVR"].map((code) => {
               const airport = getAirport(code);

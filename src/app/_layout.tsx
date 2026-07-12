@@ -13,7 +13,24 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="index" />
+        <Stack.Screen
+          name="(panel)"
+          options={{
+            // The Flighty home panel: a persistent, non-dismissible sheet over
+            // the globe. gestureEnabled:false maps to isModalInPresentation so
+            // it can be dragged between detents but never swiped away, and the
+            // undimmed detents keep the map interactive behind it.
+            presentation: "formSheet",
+            sheetAllowedDetents: process.env.EXPO_OS === "ios" ? [0.57, 0.95] : [1.0],
+            sheetInitialDetentIndex: 0,
+            sheetGrabberVisible: false,
+            sheetLargestUndimmedDetentIndex: "last",
+            sheetCornerRadius: 40,
+            gestureEnabled: false,
+            contentStyle: { backgroundColor: "#FFFFFF" },
+          }}
+        />
         <Stack.Screen
           name="add-flight"
           options={{
