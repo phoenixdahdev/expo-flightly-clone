@@ -8,11 +8,10 @@ import {
   Text as UiText,
 } from "@expo/ui/swift-ui";
 import {
-  background,
   foregroundColor,
   font,
+  glassEffect,
   padding,
-  shadow,
 } from "@expo/ui/swift-ui/modifiers";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -42,7 +41,7 @@ function IosChips({
               font({ size: 17, weight: "semibold" }),
               padding({ vertical: 11, horizontal: 20 }),
               ...(filter === "everyone"
-                ? [background("#FFFFFF", "capsule" as never), shadow({ radius: 8, y: 2, color: "#00000022" })]
+                ? [glassEffect({ shape: "capsule", glass: { variant: "regular", interactive: true } })]
                 : []),
             ]}
           >
@@ -59,7 +58,7 @@ function IosChips({
               font({ size: 17, weight: "medium" }),
               padding({ vertical: 11, horizontal: 14 }),
               ...(filter === "today"
-                ? [background("#FFFFFF", "capsule" as never), shadow({ radius: 8, y: 2, color: "#00000022" })]
+                ? [glassEffect({ shape: "capsule", glass: { variant: "regular", interactive: true } })]
                 : []),
             ]}
           >
@@ -96,7 +95,7 @@ function FallbackChips({
           style={{
             paddingVertical: 11,
             paddingHorizontal: key === "everyone" ? 20 : 14,
-            borderRadius: 24,
+            borderRadius: 999,
             backgroundColor: filter === key ? "#FFFFFF" : "transparent",
             boxShadow: filter === key ? "0 2px 8px rgba(0,0,0,0.13)" : undefined,
           }}

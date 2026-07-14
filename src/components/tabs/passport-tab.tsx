@@ -13,9 +13,9 @@ import {
   cornerRadius,
   font,
   frame,
+  glassEffect,
   kerning,
   padding,
-  shadow,
 } from "@expo/ui/swift-ui/modifiers";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo, useState } from "react";
@@ -218,7 +218,7 @@ function IosChips({
                 font({ size: 17, weight: range === chip.key ? "semibold" : "medium" }),
                 padding({ vertical: 11, horizontal: 20 }),
                 ...(range === chip.key
-                  ? [background("#FFFFFF", "capsule" as never), shadow({ radius: 8, y: 2, color: "#00000022" })]
+                  ? [glassEffect({ shape: "capsule", glass: { variant: "regular", interactive: true } })]
                   : []),
               ]}
             >
