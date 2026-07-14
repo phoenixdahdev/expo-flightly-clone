@@ -22,7 +22,7 @@ function GlassCircleButton({
   return (
     <GlassView
       isInteractive
-      style={{ width: 44, height: 44, borderRadius: 22, overflow: "hidden" }}
+      style={{ width: 44, height: 44, borderRadius: 22 }}
     >
       <Pressable
         onPress={() => {
