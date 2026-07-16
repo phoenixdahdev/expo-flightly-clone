@@ -30,7 +30,7 @@ function IosChips({
   onChangeFilter(f: FriendsFilter): void;
 }) {
   return (
-    <Host matchContents style={{ width: "100%" }}>
+    <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
       {/* Fixed row height keeps this row aligned with the passport tab's chips,
           whose text-only content is shorter than the 26pt Add Friend icon. */}
       <HStack spacing={6} modifiers={[frame({ height: 48 })]}>

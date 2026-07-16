@@ -8,9 +8,7 @@ import {
   VStack,
 } from "@expo/ui/swift-ui";
 import {
-  background,
   foregroundColor,
-  cornerRadius,
   font,
   frame,
   glassEffect,
@@ -82,15 +80,19 @@ function StatCaption({ children }: { children: string }) {
 
 function IosPassportCard() {
   const stats = usePassportStats();
+  const { width } = useWindowDimensions();
+  // Same intrinsic-width workaround as IosDelayCard: matchContents means the
+  // button row won't stretch on its own, so pin it to the card's inner width.
+  const rowWidth = width - 72;
 
   return (
     <View style={{ borderRadius: 22, borderCurve: "continuous", overflow: "hidden" }}>
       <LinearGradient
-        colors={["#241A5E", "#1A1145", "#320D33"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        colors={["#1A0E3E", "#252371", "#2F55A8"]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
       >
-        <Host matchContents style={{ width: "100%" }}>
+        <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
           <VStack alignment="leading" spacing={16} modifiers={[padding({ all: 20 })]}>
             <HStack>
               <VStack alignment="leading" spacing={4}>
@@ -109,7 +111,11 @@ function IosPassportCard() {
             </HStack>
 
             <HStack alignment="top" spacing={0}>
-              <VStack alignment="leading" spacing={2} modifiers={[frame({ minWidth: 130 })]}>
+              <VStack
+                alignment="leading"
+                spacing={2}
+                modifiers={[frame({ minWidth: 130, alignment: "leading" })]}
+              >
                 <StatLabel>FLIGHTS</StatLabel>
                 <StatValue size={40}>{`${stats.flights}`}</StatValue>
                 <StatCaption>{`${stats.longHaul} Long Haul`}</StatCaption>
@@ -123,11 +129,19 @@ function IosPassportCard() {
             </HStack>
 
             <HStack alignment="top" spacing={0}>
-              <VStack alignment="leading" spacing={2} modifiers={[frame({ minWidth: 130 })]}>
+              <VStack
+                alignment="leading"
+                spacing={2}
+                modifiers={[frame({ minWidth: 130, alignment: "leading" })]}
+              >
                 <StatLabel>FLIGHT TIME</StatLabel>
                 <StatValue size={28}>{stats.flightTime}</StatValue>
               </VStack>
-              <VStack alignment="leading" spacing={2} modifiers={[frame({ minWidth: 90 })]}>
+              <VStack
+                alignment="leading"
+                spacing={2}
+                modifiers={[frame({ minWidth: 90, alignment: "leading" })]}
+              >
                 <StatLabel>AIRPORTS</StatLabel>
                 <StatValue size={28}>{`${stats.airports}`}</StatValue>
               </VStack>
@@ -142,8 +156,14 @@ function IosPassportCard() {
               <HStack
                 modifiers={[
                   padding({ vertical: 13, horizontal: 16 }),
-                  background("#FFFFFF22"),
-                  cornerRadius(12),
+                  frame({ width: rowWidth }),
+                  glassEffect({
+                    shape: "roundedRectangle",
+                    cornerRadius: 12,
+                    // "regular" adapts to backdrop brightness and flips to a washed-out
+                    // light appearance on these gradient cards — "clear" stays translucent.
+                    glass: { variant: "clear", interactive: true, tint: "#FFFFFF1A" },
+                  }),
                 ]}
               >
                 <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 17, weight: "semibold" })]}>
@@ -170,11 +190,11 @@ function IosDelayCard() {
   return (
     <View style={{ borderRadius: 22, borderCurve: "continuous", overflow: "hidden" }}>
       <LinearGradient
-        colors={["#7A1220", "#A61B2B", "#D64545"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        colors={["#420A0E", "#7A1F1C", "#A03A30"]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
       >
-        <Host matchContents style={{ width: "100%" }}>
+        <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
           <VStack alignment="leading" spacing={2} modifiers={[padding({ all: 20 })]}>
             <HStack alignment="top" modifiers={[frame({ width: rowWidth })]}>
               <StatValue size={64}>{`${stats.delayedMin}`}</StatValue>
@@ -184,6 +204,28 @@ function IosDelayCard() {
             <UiText modifiers={[foregroundColor("#F6C9CD"), font({ size: 16, weight: "semibold" })]}>
               minutes lost from delays
             </UiText>
+            <Button onPress={selectionHaptic}>
+              <HStack
+                modifiers={[
+                  padding({ vertical: 13, horizontal: 16 }),
+                  frame({ width: rowWidth }),
+                  glassEffect({
+                    shape: "roundedRectangle",
+                    cornerRadius: 12,
+                    // "regular" adapts to backdrop brightness and flips to a washed-out
+                    // light appearance over this red gradient — "clear" stays translucent.
+                    glass: { variant: "clear", interactive: true, tint: "#FFFFFF12" },
+                  }),
+                  padding({ top: 14 }),
+                ]}
+              >
+                <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 17, weight: "semibold" })]}>
+                  All Delay Stats
+                </UiText>
+                <Spacer />
+                <Image systemName="chevron.right" size={14} color="#FFFFFF" />
+              </HStack>
+            </Button>
           </VStack>
         </Host>
       </LinearGradient>
@@ -199,7 +241,7 @@ function IosChips({
   onChangeRange(r: "all" | "2026"): void;
 }) {
   return (
-    <Host matchContents style={{ width: "100%" }}>
+    <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
       {/* Same fixed height as the friends tab's chip row so the two rows align. */}
       <HStack spacing={6} modifiers={[frame({ height: 48 })]}>
         {(
