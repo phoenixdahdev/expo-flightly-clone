@@ -22,34 +22,39 @@ export default function RootLayout() {
             // it can be dragged between detents but never swiped away, and the
             // undimmed detents keep the map interactive behind it.
             presentation: "formSheet",
-            sheetAllowedDetents: process.env.EXPO_OS === "ios" ? [0.57, 0.95] : [1.0],
+            sheetAllowedDetents: [0.57, 1.0],
             sheetInitialDetentIndex: 0,
             sheetGrabberVisible: false,
             sheetLargestUndimmedDetentIndex: "last",
-            sheetCornerRadius: 40,
             gestureEnabled: false,
-            contentStyle: { backgroundColor: "#FFFFFF" },
+            contentStyle: { backgroundColor: "transparent" },
           }}
         />
         <Stack.Screen
           name="add-flight"
           options={{
             presentation: "formSheet",
-            sheetAllowedDetents: process.env.EXPO_OS === "ios" ? [0.96] : [1.0],
+            sheetAllowedDetents: [1.0],
             sheetGrabberVisible: false,
             sheetLargestUndimmedDetentIndex: "none",
-            contentStyle: { backgroundColor: "#FFFFFF" },
+            contentStyle: { backgroundColor: "transparent" },
           }}
         />
         <Stack.Screen
           name="flight/[id]"
           options={{
             presentation: "formSheet",
-            sheetAllowedDetents: [0.58, 0.96],
+            // The screen's Stack.Toolbar (placement="right") re-enables the
+            // native header for the close button; keep the bar itself invisible
+            // so the in-content DetailHeader stays the visual header.
+            headerTransparent: true,
+            headerShadowVisible: false,
+            title: "",
+            sheetAllowedDetents: [0.58, 1.0],
             sheetInitialDetentIndex: 0,
             sheetGrabberVisible: false,
             sheetLargestUndimmedDetentIndex: "last",
-            contentStyle: { backgroundColor: "#FFFFFF" },
+            contentStyle: { backgroundColor: "transparent" },
           }}
         />
       </Stack>

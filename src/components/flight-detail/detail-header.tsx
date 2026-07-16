@@ -1,8 +1,6 @@
-import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 import { AirlineLogo } from "@/components/ui/airline-logo";
-import { IconCircle } from "@/components/ui/icon-circle";
 import { colors } from "@/constants/colors";
 import { getAirport } from "@/data/airports";
 import type { FlightTemplate } from "@/data/types";
@@ -45,7 +43,6 @@ export function DetailHeader({
           {origin.city} to {dest.city}
         </Text>
       </View>
-      <IconCircle icon="xmark" size={40} iconSize={15} onPress={() => router.back()} />
     </View>
   );
 }
