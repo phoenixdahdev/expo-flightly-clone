@@ -17,7 +17,7 @@ import {
 } from "@expo/ui/swift-ui/modifiers";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo, useState } from "react";
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { Image as RNImage, ScrollView, Text, useWindowDimensions, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import { getTemplate } from "@/data/flight-templates";
@@ -39,6 +39,14 @@ function usePassportStats() {
       templates.map((t) => t.operatedAs?.airlineIata ?? t.airlineIata)
     ).size;
     const longHaul = templates.filter((t) => t.durationMin >= 6 * 60).length;
+    const aircraftCounts = new Map<string, number>();
+    for (const t of templates) {
+      aircraftCounts.set(t.aircraft.type, (aircraftCounts.get(t.aircraft.type) ?? 0) + 1);
+    }
+    let topAircraft = { type: "", count: 0 };
+    for (const [type, count] of aircraftCounts) {
+      if (count > topAircraft.count) topAircraft = { type, count };
+    }
     return {
       flights: flights.length,
       longHaul,
@@ -48,6 +56,9 @@ function usePassportStats() {
       airports,
       airlines,
       delayedMin: 33,
+      // "Boeing 777-300 ER" → "B777-300 ER", matching Flighty's short form.
+      aircraftType: topAircraft.type.replace("Boeing ", "B").replace("Airbus ", "A"),
+      aircraftFlights: topAircraft.count,
     };
   }, [flights]);
 }
@@ -233,6 +244,77 @@ function IosDelayCard() {
   );
 }
 
+function IosAircraftCard() {
+  const stats = usePassportStats();
+  const { width } = useWindowDimensions();
+  // Same intrinsic-width workaround as the other cards.
+  const rowWidth = width - 72;
+
+  return (
+    <View style={{ borderRadius: 22, borderCurve: "continuous", overflow: "hidden" }}>
+      <LinearGradient
+        colors={["#D9D2F0", "#C9DCF3"]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
+      >
+        <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
+          <VStack alignment="leading" spacing={2} modifiers={[padding({ top: 20, leading: 20, trailing: 20 })]}>
+            <HStack alignment="top" modifiers={[frame({ width: rowWidth })]}>
+              <UiText modifiers={[foregroundColor("#2A3B5F"), font({ size: 22, weight: "semibold" })]}>
+                Most flown aircraft
+              </UiText>
+              <Spacer />
+              <Image systemName="square.and.arrow.up" size={19} color="#2A3B5F" />
+            </HStack>
+            <UiText modifiers={[foregroundColor("#2A3B5F"), font({ size: 40, weight: "semibold" })]}>
+              {stats.aircraftType}
+            </UiText>
+            <UiText modifiers={[foregroundColor("#6B7A99"), font({ size: 16, weight: "regular" })]}>
+              {`${stats.aircraftFlights} flight${stats.aircraftFlights === 1 ? "" : "s"}`}
+            </UiText>
+          </VStack>
+        </Host>
+        <RNImage
+          source={require("../../../assets/images/plane-side/AC-plane-side.png")}
+          style={{
+            alignSelf: "center",
+            // Match the button's width (card inner width, 20pt in from each edge).
+            width: rowWidth,
+            // Explicit height, not aspectRatio: see image-aspectratio-ignored-fabric.
+            height: Math.round((rowWidth * 259) / 789),
+            // Let the tail ride up over the text block, like the real Flighty card.
+            marginTop: -16,
+            marginBottom: 6,
+          }}
+          resizeMode="contain"
+        />
+        <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
+          <Button onPress={selectionHaptic}>
+            <HStack
+              modifiers={[
+                padding({ vertical: 13, horizontal: 16 }),
+                frame({ width: rowWidth }),
+                glassEffect({
+                  shape: "roundedRectangle",
+                  cornerRadius: 12,
+                  glass: { variant: "clear", interactive: true, tint: "#FFFFFF4D" },
+                }),
+                padding({ horizontal: 20, bottom: 20, top: 4 }),
+              ]}
+            >
+              <UiText modifiers={[foregroundColor("#2A3B5F"), font({ size: 17, weight: "semibold" })]}>
+                All Aircraft Stats
+              </UiText>
+              <Spacer />
+              <Image systemName="chevron.right" size={14} color="#2A3B5F" />
+            </HStack>
+          </Button>
+        </Host>
+      </LinearGradient>
+    </View>
+  );
+}
+
 function IosChips({
   range,
   onChangeRange,
@@ -297,6 +379,7 @@ export function PassportTab() {
           <>
             <IosPassportCard />
             <IosDelayCard />
+            <IosAircraftCard />
           </>
         ) : (
           <View

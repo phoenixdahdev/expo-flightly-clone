@@ -17,9 +17,9 @@ export function TimeBadge({ direction, code, time, dayOffset, size = 15 }: TimeB
     <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
       <View
         style={{
-          width: size + 5,
-          height: size + 5,
-          borderRadius: (size + 5) / 2,
+          width: size,
+          height: size,
+          borderRadius: size / 2,
           backgroundColor: colors.green,
           alignItems: "center",
           justifyContent: "center",
@@ -27,7 +27,7 @@ export function TimeBadge({ direction, code, time, dayOffset, size = 15 }: TimeB
       >
         <SfSymbol
           name={direction === "departure" ? "arrow.up.right" : "arrow.down.right"}
-          size={size * 0.62}
+          size={size * 0.5}
           tintColor="#FFFFFF"
           weight="bold"
         />
