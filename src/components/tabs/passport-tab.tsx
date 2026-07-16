@@ -200,7 +200,8 @@ function IosChips({
 }) {
   return (
     <Host matchContents style={{ width: "100%" }}>
-      <HStack spacing={6}>
+      {/* Same fixed height as the friends tab's chip row so the two rows align. */}
+      <HStack spacing={6} modifiers={[frame({ height: 48 })]}>
         {(
           [
             { key: "all", label: "All-Time" },

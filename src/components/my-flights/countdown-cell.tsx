@@ -77,6 +77,7 @@ export function CountdownCell({
     <View style={{ width: CELL_WIDTH, alignItems: "center", gap: 2 }}>
       <Text
         style={{
+          fontFamily: "ui-rounded",
           fontSize: 40,
           fontWeight: "700",
           color: colors.label,

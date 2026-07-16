@@ -39,14 +39,14 @@ export default function MapScreen() {
   useEffect(() => {
     if (flights.length > lastCountRef.current) {
       const newest = flights[flights.length - 1];
-      flyToFlight(newest.templateId);
+      flyToFlight(newest);
     }
     lastCountRef.current = flights.length;
   }, [flights, flyToFlight]);
 
   // When a detail sheet opens, frame that flight's route.
   useEffect(() => {
-    if (selectedFlight) flyToFlight(selectedFlight.templateId);
+    if (selectedFlight) flyToFlight(selectedFlight);
   }, [selectedFlight, flyToFlight]);
 
   return (

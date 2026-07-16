@@ -1,6 +1,5 @@
 import {
   Button,
-  ContentUnavailableView,
   Host,
   HStack,
   Image,
@@ -10,12 +9,14 @@ import {
 import {
   foregroundColor,
   font,
+  frame,
   glassEffect,
   padding,
 } from "@expo/ui/swift-ui/modifiers";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
+import { InlineSearchGlyph, PanelEmptyState } from "@/components/ui/panel-empty-state";
 import { colors } from "@/constants/colors";
 import { selectionHaptic } from "@/utils/haptics";
 
@@ -30,7 +31,9 @@ function IosChips({
 }) {
   return (
     <Host matchContents style={{ width: "100%" }}>
-      <HStack spacing={6}>
+      {/* Fixed row height keeps this row aligned with the passport tab's chips,
+          whose text-only content is shorter than the 26pt Add Friend icon. */}
+      <HStack spacing={6} modifiers={[frame({ height: 48 })]}>
         <Button
           onPress={() => {
             selectionHaptic();
@@ -133,26 +136,10 @@ export function FriendsTab() {
           paddingHorizontal: 24,
         }}
       >
-        {process.env.EXPO_OS === "ios" ? (
-          <Host style={{ width: "100%", height: 180 }}>
-            <ContentUnavailableView
-              title="Add Friends' Flights"
-              description="Add a Flighty friend to see their flights automatically, or tap Search to add a flight"
-            />
-          </Host>
-        ) : (
-          <View style={{ alignItems: "center", gap: 8, paddingHorizontal: 32 }}>
-            <Text style={{ fontSize: 21, fontWeight: "700", color: colors.secondaryLabel }}>
-              Add Friends&apos; Flights
-            </Text>
-            <Text
-              style={{ fontSize: 16, color: colors.secondaryLabel, textAlign: "center" }}
-            >
-              Add a Flighty friend to see their flights automatically, or tap Search to add
-              a flight
-            </Text>
-          </View>
-        )}
+        <PanelEmptyState title="Add Friends’ Flights">
+          Add a Flighty friend to see their flights automatically, or tap{" "}
+          <InlineSearchGlyph /> Search to add a flight
+        </PanelEmptyState>
       </View>
     </View>
   );

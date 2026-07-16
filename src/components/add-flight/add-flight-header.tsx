@@ -14,7 +14,15 @@ export function AddFlightHeader({ subtitle }: { subtitle: string }) {
           justifyContent: "space-between",
         }}
       >
-        <Text style={{ fontSize: 34, fontWeight: "800", color: colors.label, letterSpacing: -0.5 }}>
+        <Text
+          style={{
+            fontFamily: "ui-rounded",
+            fontSize: 34,
+            fontWeight: "800",
+            color: colors.label,
+            letterSpacing: -0.5,
+          }}
+        >
           Add Flight
         </Text>
         <IconCircle icon="xmark" size={40} iconSize={16} onPress={() => router.back()} />

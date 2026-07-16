@@ -71,7 +71,9 @@ export function FlightCard({ flight }: { flight: TrackedFlight }) {
               <Text style={{ color: statusColor, fontWeight: "700" }}>{status.emphasis}</Text>
             </Text>
           </View>
-          <Text style={{ fontSize: 21, fontWeight: "700", color: colors.label }}>
+          <Text
+            style={{ fontFamily: "ui-rounded", fontSize: 21, fontWeight: "700", color: colors.label }}
+          >
             {origin.city}
             <Text style={{ fontWeight: "400" }}> to </Text>
             {dest.city}

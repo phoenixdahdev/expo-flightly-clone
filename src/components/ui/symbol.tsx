@@ -4,6 +4,7 @@ import { Text } from "react-native";
 // Minimal Android/text fallbacks for the SF Symbols we use.
 const FALLBACK_GLYPHS: Record<string, string> = {
   magnifyingglass: "⌕",
+  "magnifyingglass.circle.fill": "⌕",
   "square.and.arrow.up": "⮭",
   xmark: "✕",
   map: "▦",
