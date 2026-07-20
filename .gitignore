@@ -24,6 +24,7 @@ expo-env.d.ts
 # debug
 npm-debug.*
 yarn-debug.*
+temp_auto_push.bat
 yarn-error.*
 
 # macOS
@@ -50,3 +51,5 @@ example
 # CNG native projects
 /ios
 /android
+.gitignore
+branch_structure.json
