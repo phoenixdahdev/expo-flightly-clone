@@ -174,13 +174,13 @@ export default function FlightDetailScreen() {
                 icon="airplane.departure"
                 onPress={() => Linking.openURL(`maps://?q=${encodeURIComponent(origin.name)}`)}
               >
-                {`${origin.city} (${origin.iata})`}
+                {`Open to ${origin.iata}`}
               </Stack.Toolbar.MenuAction>
               <Stack.Toolbar.MenuAction
                 icon="airplane.arrival"
                 onPress={() => Linking.openURL(`maps://?q=${encodeURIComponent(dest.name)}`)}
               >
-                {`${dest.city} (${dest.iata})`}
+                {`Open to ${dest.iata}`}
               </Stack.Toolbar.MenuAction>
             </Stack.Toolbar.Menu>
           </Stack.Toolbar.Menu>

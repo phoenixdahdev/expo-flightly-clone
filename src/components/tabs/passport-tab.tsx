@@ -66,14 +66,14 @@ function usePassportStats() {
 function StatLabel({ children }: { children: string }) {
   return (
     <UiText
-      modifiers={[foregroundColor("#B9B3E4"), font({ size: 14, weight: "semibold" }), kerning(0.6)]}
+      modifiers={[foregroundColor("#B9B3E4"), font({ size: 11, weight: "semibold" }), kerning(0.6)]}
     >
       {children}
     </UiText>
   );
 }
 
-function StatValue({ children, size = 34 }: { children: string; size?: number }) {
+function StatValue({ children, size = 31 }: { children: string; size?: number }) {
   return (
     <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size, weight: "bold" })]}>
       {children}
@@ -83,7 +83,7 @@ function StatValue({ children, size = 34 }: { children: string; size?: number })
 
 function StatCaption({ children }: { children: string }) {
   return (
-    <UiText modifiers={[foregroundColor("#B9B3E4"), font({ size: 14, weight: "regular" })]}>
+    <UiText modifiers={[foregroundColor("#B9B3E4"), font({ size: 12, weight: "regular" })]}>
       {children}
     </UiText>
   );
@@ -104,16 +104,20 @@ function IosPassportCard() {
         end={{ x: 0, y: 1 }}
       >
         <Host matchContents ignoreSafeArea="all" style={{ width: "100%" }}>
-          <VStack alignment="leading" spacing={16} modifiers={[padding({ all: 20 })]}>
+          <VStack
+            alignment="leading"
+            spacing={14}
+            modifiers={[padding({ top: 14, leading: 20, trailing: 20, bottom: 16 })]}
+          >
             <HStack>
               <VStack alignment="leading" spacing={4}>
                 <UiText
-      modifiers={[foregroundColor("#FFFFFF"), font({ size: 19, weight: "semibold" }), kerning(0.8)]}
+      modifiers={[foregroundColor("#FFFFFF"), font({ size: 17, weight: "semibold" }), kerning(0.8)]}
                 >
                   ALL-TIME FLIGHTY PASSPORT
                 </UiText>
                 <HStack spacing={6}>
-                  <Image systemName="person.text.rectangle" size={14} color="#B9B3E4" />
+                  <Image systemName="person.text.rectangle" size={12} color="#B9B3E4" />
                   <StatCaption>PASSPORT • PASS • PASAPORTE</StatCaption>
                 </HStack>
               </VStack>
@@ -128,12 +132,12 @@ function IosPassportCard() {
                 modifiers={[frame({ minWidth: 130, alignment: "leading" })]}
               >
                 <StatLabel>FLIGHTS</StatLabel>
-                <StatValue size={40}>{`${stats.flights}`}</StatValue>
+                <StatValue>{`${stats.flights}`}</StatValue>
                 <StatCaption>{`${stats.longHaul} Long Haul`}</StatCaption>
               </VStack>
               <VStack alignment="leading" spacing={2}>
                 <StatLabel>DISTANCE</StatLabel>
-                <StatValue size={40}>{`${stats.distanceKm.toLocaleString()} km`}</StatValue>
+                <StatValue>{`${stats.distanceKm.toLocaleString()} km`}</StatValue>
                 <StatCaption>{`${stats.aroundWorld}x around the world`}</StatCaption>
               </VStack>
               <Spacer />
@@ -146,7 +150,7 @@ function IosPassportCard() {
                 modifiers={[frame({ minWidth: 130, alignment: "leading" })]}
               >
                 <StatLabel>FLIGHT TIME</StatLabel>
-                <StatValue size={28}>{stats.flightTime}</StatValue>
+                <StatValue size={21}>{stats.flightTime}</StatValue>
               </VStack>
               <VStack
                 alignment="leading"
@@ -154,11 +158,11 @@ function IosPassportCard() {
                 modifiers={[frame({ minWidth: 90, alignment: "leading" })]}
               >
                 <StatLabel>AIRPORTS</StatLabel>
-                <StatValue size={28}>{`${stats.airports}`}</StatValue>
+                <StatValue size={21}>{`${stats.airports}`}</StatValue>
               </VStack>
               <VStack alignment="leading" spacing={2}>
                 <StatLabel>AIRLINES</StatLabel>
-                <StatValue size={28}>{`${stats.airlines}`}</StatValue>
+                <StatValue size={21}>{`${stats.airlines}`}</StatValue>
               </VStack>
               <Spacer />
             </HStack>
@@ -166,7 +170,7 @@ function IosPassportCard() {
             <Button onPress={selectionHaptic}>
               <HStack
                 modifiers={[
-                  padding({ vertical: 13, horizontal: 16 }),
+                  padding({ vertical: 12, horizontal: 16 }),
                   frame({ width: rowWidth }),
                   glassEffect({
                     shape: "roundedRectangle",
@@ -177,7 +181,7 @@ function IosPassportCard() {
                   }),
                 ]}
               >
-                <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 17, weight: "semibold" })]}>
+                <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 16, weight: "semibold" })]}>
                   All Flight Stats
                 </UiText>
                 <Spacer />
@@ -212,13 +216,13 @@ function IosDelayCard() {
               <Spacer />
               <Image systemName="square.and.arrow.up" size={19} color="#FFFFFF" />
             </HStack>
-            <UiText modifiers={[foregroundColor("#F6C9CD"), font({ size: 16, weight: "semibold" })]}>
+            <UiText modifiers={[foregroundColor("#F6C9CD"), font({ size: 15, weight: "semibold" })]}>
               minutes lost from delays
             </UiText>
             <Button onPress={selectionHaptic}>
               <HStack
                 modifiers={[
-                  padding({ vertical: 13, horizontal: 16 }),
+                  padding({ vertical: 12, horizontal: 16 }),
                   frame({ width: rowWidth }),
                   glassEffect({
                     shape: "roundedRectangle",
@@ -230,7 +234,7 @@ function IosDelayCard() {
                   padding({ top: 14 }),
                 ]}
               >
-                <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 17, weight: "semibold" })]}>
+                <UiText modifiers={[foregroundColor("#FFFFFF"), font({ size: 16, weight: "semibold" })]}>
                   All Delay Stats
                 </UiText>
                 <Spacer />
@@ -292,7 +296,7 @@ function IosAircraftCard() {
           <Button onPress={selectionHaptic}>
             <HStack
               modifiers={[
-                padding({ vertical: 13, horizontal: 16 }),
+                padding({ vertical: 12, horizontal: 16 }),
                 frame({ width: rowWidth }),
                 glassEffect({
                   shape: "roundedRectangle",
@@ -302,7 +306,7 @@ function IosAircraftCard() {
                 padding({ horizontal: 20, bottom: 20, top: 4 }),
               ]}
             >
-              <UiText modifiers={[foregroundColor("#2A3B5F"), font({ size: 17, weight: "semibold" })]}>
+              <UiText modifiers={[foregroundColor("#2A3B5F"), font({ size: 16, weight: "semibold" })]}>
                 All Aircraft Stats
               </UiText>
               <Spacer />
@@ -340,8 +344,8 @@ function IosChips({
             }}
           >
             <UiText modifiers={[foregroundColor(range === chip.key ? colors.label : colors.secondaryLabel), 
-                font({ size: 17, weight: range === chip.key ? "semibold" : "medium" }),
-                padding({ vertical: 11, horizontal: 20 }),
+                font({ size: 14, weight: range === chip.key ? "semibold" : "medium" }),
+                padding({ vertical: 8, horizontal: 14 }),
                 ...(range === chip.key
                   ? [glassEffect({ shape: "capsule", glass: { variant: "regular", interactive: true } })]
                   : []),
@@ -363,7 +367,7 @@ export function PassportTab() {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ paddingHorizontal: 14, paddingTop: 2 }}>
+      <View style={{ paddingHorizontal: 14, paddingTop: 6 }}>
         {process.env.EXPO_OS === "ios" ? (
           <IosChips range={range} onChangeRange={setRange} />
         ) : (
