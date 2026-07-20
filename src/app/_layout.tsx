@@ -22,7 +22,9 @@ export default function RootLayout() {
             // it can be dragged between detents but never swiped away, and the
             // undimmed detents keep the map interactive behind it.
             presentation: "formSheet",
-            sheetAllowedDetents: [0.57, 1.0],
+            // 0.611 of the max detent height rests the sheet top at ~398pt on
+            // a 874pt screen, matching the real Flighty panel measured on-device.
+            sheetAllowedDetents: [0.611, 1.0],
             sheetInitialDetentIndex: 0,
             sheetGrabberVisible: false,
             sheetLargestUndimmedDetentIndex: "last",
@@ -50,7 +52,8 @@ export default function RootLayout() {
             headerTransparent: true,
             headerShadowVisible: false,
             title: "",
-            sheetAllowedDetents: [0.58, 1.0],
+            // Same resting height as the (panel) sheet, matched to the real app.
+            sheetAllowedDetents: [0.611, 1.0],
             sheetInitialDetentIndex: 0,
             sheetGrabberVisible: false,
             sheetLargestUndimmedDetentIndex: "last",
